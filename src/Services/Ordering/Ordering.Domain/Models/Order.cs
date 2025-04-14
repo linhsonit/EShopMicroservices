@@ -12,7 +12,11 @@ namespace Ordering.Domain.Models
         public Address BillingAddress { get; private set; } = default!;
         public Payment Payment { get; private set; } = default!;
         public OrderStatus Status { get; private set; } = OrderStatus.Pending;
-        public decimal TotalPrice => OrderItems.Sum(item => item.Price * item.Quantity);
+        public decimal TotalPrice
+        {
+            get => OrderItems.Sum(x => x.Price * x.Quantity);
+            private set { } // Required for mapping
+        }
 
         public static Order Create(
             OrderId orderId,
@@ -56,6 +60,9 @@ namespace Ordering.Domain.Models
 
         public void Add(ProductId productId, int quantity, decimal price)
         {
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(quantity);
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(price);
+
             var orderItem = new OrderItem(Id, productId, quantity, price);
             _orderItems.Add(orderItem);
 

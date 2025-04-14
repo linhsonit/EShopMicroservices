@@ -9,7 +9,7 @@
             //services.AddValidatorsFromAssemblyContaining<Program>();
             return services;
         }
-        
+
         public static WebApplication UseApiServices(this WebApplication app)
         {
             //app.UseExceptionHandler<CustomExceptionHandler>();
@@ -20,4 +20,5 @@
             //});
             return app;
         }
+    }
 }
